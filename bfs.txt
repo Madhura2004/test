@@ -1,0 +1,45 @@
+#include <iostream>
+#include <vector>
+#include <set>
+
+using namespace std;
+
+void bfs_recursive(const vector<vector<int>>& graph, set<int>& visited, int node, int level, const int total_nodes) {
+    if (level == 0) {
+        return;
+    }
+
+    cout << node << " ";
+
+    // Explore all neighbors of the current node
+    for (int neighbor : graph[node]) {
+        if (visited.find(neighbor) == visited.end()) {
+            visited.insert(neighbor);
+            bfs_recursive(graph, visited, neighbor, level - 1, total_nodes);
+        }
+    }
+}
+
+void bfs(const vector<vector<int>>& graph, int start) {
+    set<int> visited;  // To track visited nodes
+    visited.insert(start);
+
+    cout << start << " ";  // Start node
+    bfs_recursive(graph, visited, start, graph.size(), graph.size());
+}
+
+int main() {
+    // Example graph (adjacency list representation)
+    vector<vector<int>> graph = {
+        {1, 2},     // 0
+        {0, 3, 4},  // 1
+        {0, 4},     // 2
+        {1},        // 3
+        {1, 2}      // 4
+    };
+
+    // Start BFS from node 0
+    bfs(graph, 0);
+
+    return 0;
+}
